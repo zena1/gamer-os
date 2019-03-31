@@ -116,6 +116,15 @@ autologin-user=${USERNAME}
 autologin-session=steamos
 " > /etc/lightdm/lightdm.conf
 
+echo "
+polkit.addRule(function(action, subject) {
+	if (action.id == "org.freedesktop.timedate1.set-time" ||
+	    action.id == "org.freedesktop.timedate1.set-timezone") {
+		return polkit.Result.YES;
+	}
+});
+" > /etc/polkit-1/rules.d/49-timedate.rules
+
 echo "${SYSTEM_NAME}" > /etc/hostname
 
 # steam controller fix
